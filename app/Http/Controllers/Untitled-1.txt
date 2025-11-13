@@ -1,0 +1,52 @@
+
+    public function register_data(Request $req)
+    {
+        $register=new register;
+        $register->name=$req->name;
+        $register->email=$req->email;
+        $register->password=$req->password;
+        $register->save();
+        return redirect('registration');
+    }
+
+    public function registration_tabel_data(Request $req)
+    {
+        // $registration_data=register::all();
+        // $registration_data=register::select('*')->get();    
+        $registration_data=register::select('*')->paginate(3);    
+        return view('registration_tabel',['info'=>$registration_data]);
+    }
+
+    public function delete_registration_data($id)
+    {
+        $registration_data=register::find($id);
+        $registration_data->delete();
+        return redirect("registration_tabel");
+    }
+
+    public function edit_registration_data($id)
+    {
+        $registration_data=register::find($id);
+        return view("edit_registration",['info'=>$registration_data]);
+    }
+
+    public function update_registration_data(Request $req)
+    {
+        $registration_data=register::find($req->id);
+        $registration_data->name=$req->name;
+        $registration_data->email=$req->email;
+        $registration_data->password=$req->password;
+        $registration_data->save();
+        return redirect('registration_tabel');
+    }
+
+    public function search_registration_name(Request $req)
+    {
+        // $info=register::select()->where('name',$req->name)->get();
+        // $data=demo::select('*')->where('name','Kartik Chanva')->orWhere('ph_no','8780732300')->get();        
+        $info=register::select()->where('name',$req->name)->paginate(2);
+        return view('registration_tabel',compact('info'));
+    }
+    
+
+    

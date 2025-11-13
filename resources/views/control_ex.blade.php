@@ -1,0 +1,1 @@
+<h1>Hello From Blade Connect with Controller File :  {{$name}}</h1>
